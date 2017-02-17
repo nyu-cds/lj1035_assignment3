@@ -6,7 +6,7 @@
     Optimized runtime: 41.05443487100001 seconds
     Relative speedup: 3.13x
 """
-
+import timeit
 from itertools import combinations
 
 PI = 3.14159265358979323
@@ -136,8 +136,6 @@ def nbody(loops, reference, iterations):
         print(report_energy(iterations))
 
 if __name__ == '__main__':
-
-    import timeit
 
     # Calculate time to run
     print(timeit.timeit("nbody(100, 'sun', 20000)", setup="from __main__ import nbody", number=1))
