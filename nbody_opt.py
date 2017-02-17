@@ -54,8 +54,8 @@ def update_vs(v1, v2, dt, dx, dy, dz, m1, m2):
         update velocity
     '''
     mag = dt * ((dx * dx + dy * dy + dz * dz) ** (-1.5))
-    b1 = m1 * dt * mag
-    b2 = m2 * dt * mag
+    b1 = m1 * mag
+    b2 = m2 * mag
     
     v1[0] -= dx * b2
     v1[1] -= dy * b2
