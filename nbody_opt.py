@@ -64,12 +64,11 @@ def update_vs(v1, v2, dt, dx, dy, dz, m1, m2):
     v2[1] += dy * b1
     v2[2] += dz * b1
 
-def advance(iterations, dt):
+def advance(BODIES, iterations, dt):
     '''
         advance the system one timestep
     '''
-    local_BODIES = BODIES
-    bodies_keys = local_BODIES.keys()
+    bodies_keys = BODIES.keys()
     bodies_keys_pairs = list(combinations(bodies_keys, 2))
 
     for i in range(iterations):
@@ -85,12 +84,11 @@ def advance(iterations, dt):
             r[1] += dt * vy
             r[2] += dt * vz
     
-def report_energy(iterations, e=0.0):
+def report_energy(BODIES, iterations, e=0.0):
     '''
         compute the energy and return it so that it can be printed
     '''
-    local_BODIES = BODIES
-    bodies_keys = local_BODIES.keys()
+    bodies_keys = BODIES.keys()
     bodies_keys_pairs = list(combinations(bodies_keys, 2))
     
     for body1, body2 in bodies_keys_pairs:
@@ -105,13 +103,12 @@ def report_energy(iterations, e=0.0):
         
     return e
 
-def offset_momentum(ref, px=0.0, py=0.0, pz=0.0):
+def offset_momentum(BODIES, ref, px=0.0, py=0.0, pz=0.0):
     '''
         ref is the body in the center of the system
         offset values from this reference
     '''
-    local_BODIES = BODIES
-    bodies_keys = local_BODIES.keys()
+    bodies_keys = BODIES.keys()
     
     for body in bodies_keys:
         (r, [vx, vy, vz], m) = BODIES[body]
@@ -133,11 +130,11 @@ def nbody(loops, reference, iterations):
         iterations - number of timesteps to advance
     '''
     # Set up global state
-    offset_momentum(BODIES[reference])
+    offset_momentum(BODIES, BODIES[reference])
 
     for _ in range(loops):
-        advance(iterations, 0.01)
-        print(report_energy(iterations))
+        advance(BODIES, iterations, 0.01)
+        print(report_energy(BODIES, iterations))
 
 if __name__ == '__main__':
 
