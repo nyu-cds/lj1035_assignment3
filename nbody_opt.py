@@ -6,6 +6,7 @@
     Optimized runtime: 41.05443487100001 seconds
     Relative speedup: 3.13x
 """
+
 import timeit
 from itertools import combinations
 
@@ -49,6 +50,9 @@ BODIES = {
                 5.15138902046611451e-05 * SOLAR_MASS)}
 
 def update_vs(v1, v2, dt, dx, dy, dz, m1, m2):
+    '''
+        update velocity
+    '''
     mag = dt * ((dx * dx + dy * dy + dz * dz) ** (-1.5))
     b1 = m1 * dt * mag
     b2 = m2 * dt * mag
