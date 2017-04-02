@@ -11,7 +11,7 @@
 
 import timeit
 import numpy as np
-from numba import jit, int32, float64, void, int64
+from numba import jit, int32, float64, void, int64, vectorize
 from itertools import combinations
 
 PI = 3.14159265358979323
@@ -56,6 +56,10 @@ BODIES_array = np.array([
 BODIES_keys = np.array([0, 1, 2, 3, 4])
 BODIES_name = {'sun': 0, 'jupiter': 1, 'saturn': 2, 'uranus': 3, 'neptune': 4}
 
+
+@vectorize([float64(float64, float64)])
+def vec_deltas(arr1, arr2):
+    return arr1 - arr2
 
 @jit('void(float64[:], float64[:], float64, float64, float64, float64, float64, float64)', nopython=True)
 def update_vs(v1, v2, dt, dx, dy, dz, m1, m2):
@@ -120,7 +124,7 @@ def report_energy(BODIES_array, BODIES_keys, bodies_keys_pairs, e=0.0):
         y2 = BODIES_array[body2][0][1]
         z2 = BODIES_array[body2][0][2]
         m2 = BODIES_array[body2][2]
-        (dx, dy, dz) = (x1 - x2, y1 - y2, z1 - z2)
+        (dx, dy, dz) = (vec_deltas(x1, x2), y1 - y2, z1 - z2)
         e -= (m1[0] * m2[0]) / ((dx * dx + dy * dy + dz * dz) ** 0.5)
 
     for body in BODIES_keys:
