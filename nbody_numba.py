@@ -86,17 +86,13 @@ def advance(BODIES_array, BODIES_keys, bodies_keys_pairs, iterations, dt):
     for i in range(iterations):
         for index in range(len(bodies_keys_pairs)):
             (body1, body2) = bodies_keys_pairs[index]
-            x1 = BODIES_array[body1][0][0]
-            y1 = BODIES_array[body1][0][1]
-            z1 = BODIES_array[body1][0][2]
+            p1 = BODIES_array[body1][0]
             v1 = BODIES_array[body1][1]
             m1 = BODIES_array[body1][2]
-            x2 = BODIES_array[body2][0][0]
-            y2 = BODIES_array[body2][0][1]
-            z2 = BODIES_array[body2][0][2]
+            p2 = BODIES_array[body2][0]
             v2 = BODIES_array[body2][1]
             m2 = BODIES_array[body2][2]
-            (dx, dy, dz) = (x1 - x2, y1 - y2, z1 - z2)
+            (dx, dy, dz) = vec_deltas(p1, p2)
             update_vs(v1, v2, dt, dx, dy, dz, m1[0], m2[0])
 
         for body in BODIES_keys:
@@ -116,15 +112,11 @@ def report_energy(BODIES_array, BODIES_keys, bodies_keys_pairs, e=0.0):
     '''
     for index in range(len(bodies_keys_pairs)):
         (body1, body2) = bodies_keys_pairs[index]
-        x1 = BODIES_array[body1][0][0]
-        y1 = BODIES_array[body1][0][1]
-        z1 = BODIES_array[body1][0][2]
+        p1 = BODIES_array[body1][0]
         m1 = BODIES_array[body1][2]
-        x2 = BODIES_array[body2][0][0]
-        y2 = BODIES_array[body2][0][1]
-        z2 = BODIES_array[body2][0][2]
+        p2 = BODIES_array[body2][0]
         m2 = BODIES_array[body2][2]
-        (dx, dy, dz) = (vec_deltas(x1, x2), y1 - y2, z1 - z2)
+        (dx, dy, dz) = vec_deltas(p1, p2)
         e -= (m1[0] * m2[0]) / ((dx * dx + dy * dy + dz * dz) ** 0.5)
 
     for body in BODIES_keys:
